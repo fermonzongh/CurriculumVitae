@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
+
+# Montar el directorio de archivos estáticos
+app.mount("/assets", StaticFiles(directory="assets"), name="assets")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_index():
@@ -13,7 +17,7 @@ async def read_css():
     with open("styles.css") as f:
         return HTMLResponse(f.read(), media_type="text/css")
 
-@app.get("/script.js")
+@app.get("/scripts.js")
 async def read_js():
-    with open("script.js") as f:
+    with open("scripts.js") as f:
         return HTMLResponse(f.read(), media_type="application/javascript")
